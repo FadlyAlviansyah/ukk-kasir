@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('member_id')->nullable()->constrained('members');
+            $table->foreignId('user_id')->constrained('users');
+            $table->decimal('total', 10, 2);
+            $table->decimal('ammount_paid', 10, 2);
+            $table->decimal('ammount_change', 10, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
