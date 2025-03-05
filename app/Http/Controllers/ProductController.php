@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -12,7 +13,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+        return view('pages.product.index', compact('products'));
     }
 
     /**
@@ -20,7 +22,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.product.create');
     }
 
     /**
@@ -28,7 +30,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'image' => 'image|file|required',
+            'price' => 'required',
+            'stock' => 'required|integer'
+        ]);
+
+        $validatedData['image'] = $request->file('image')->store('images/product');
+
+        Product::create($validatedData);
+
+        return redirect()->route('product.home')->with('added', 'Product added successfully!');
     }
 
     /**
@@ -42,24 +55,55 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Product $product, $id)
     {
-        //
+        $product = Product::find($id);
+        return view('pages.product.edit', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Product $product, $id)
     {
-        //
+        $validation = [
+            'name' => 'required',
+            'image' => 'image|file',
+            'price' => 'required',
+            'stock' => 'required'
+        ];
+
+        $validatedData = $request->validate($validation);
+
+        if($request->file('image')) {
+            if($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['image'] = $request->file('image')->store('images/product');
+        };
+
+        Product::where('id', $id)->update($validatedData);
+
+        return redirect()->route('product.home')->with('updated', 'Product updated successfully!');
+    }
+
+    public function updateStock(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'stock' => 'required|integer'
+        ]);
+
+        Product::where('id', $id)->update(['stock' => $validatedData['stock']]);
+
+        return redirect()->route('product.home')->with('updated', 'Stock updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product, $id)
     {
-        //
+        Product::where('id', $id)->delete();
+        return redirect()->back()->with('deleted', 'Product deleted successfully!');
     }
 }
