@@ -1,0 +1,80 @@
+@extends('layouts.main')
+
+@section('header')
+  @include('components.header')
+@endsection
+
+@section('aside')
+  @include('components.aside')
+@endsection
+
+@section('content')
+<div class="page-wrapper">
+  <div class="page-breadcrumb">
+      <div class="row align-items-center">
+          <div class="col-6">
+              <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb mb-0 d-flex align-items-center">
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">User</li>
+                  </ol>
+                </nav>
+              <h1 class="mb-0 fw-bold">User</h1> 
+          </div>
+      </div>
+  </div>
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+              <div class="card-body">
+                  <div class="row justify-content-end">
+                    <div class="col text-end">
+                      <a href="{{ route('user.create') }}" class="btn btn-primary">Tambah User</a>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                      <table class="table table-hover">
+                          <thead>
+                              <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Email</th>
+                                  <th scope="col">Nama</th>
+                                  <th scope="col">Role</th>
+                                  <th scope="col"></th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            @php
+                                $i = 1;
+                            @endphp
+                            @foreach ($users as $user)
+                            <tr>
+                              <th>{{ $i++ }}</th>
+                              <td>{{ $user['email'] }}</td>
+                              <td>{{ $user['name'] }}</td>
+                              <td class="text-capitalize">{{ $user['role'] }}</td>
+                              <td>
+                                <div class="d-flex justify-content-around">
+                                  <a href="{{ route('user.edit', $user['id']) }}" class="btn btn-warning">Edit</a>
+                                  <form action="{{ route('user.delete', $user['id']) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger">Hapus</button>
+                                  </form>
+                                </div>
+                              </td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+@endsection
