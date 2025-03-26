@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
@@ -54,5 +55,13 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/edit/{id}', [TransactionController::class, 'edit'])->name('edit');
         Route::patch('/{id}', [TransactionController::class, 'update'])->name('update');
         Route::delete('/{id}', [TransactionController::class, 'destroy'])->name('delete');
+
+        Route::get('/create/member', [TransactionController::class, 'createMember'])->name('create-member');
+        Route::post('/create/member', [TransactionController::class, 'storeMember'])->name('store-member');
+
+        Route::get('/detail-print/{id}', [TransactionController::class, 'detailPrint'])->name('detail-print');
+        Route::get('/detail-print/print/{id}', [TransactionController::class, 'print'])->name('print');
+
+        Route::get('/export-excel', [TransactionController::class, 'exportExcel'])->name('export-excel');
     });
 });

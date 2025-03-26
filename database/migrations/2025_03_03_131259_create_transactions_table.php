@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('member_id')->nullable()->constrained('members');
             $table->foreignId('user_id')->constrained('users');
-            $table->decimal('total', 10, 2);
-            $table->decimal('ammount_paid', 10, 2);
-            $table->decimal('ammount_change', 10, 2);
+            $table->integer('points_used');
+            $table->integer('total');
+            $table->integer('amount_paid');
+            $table->integer('amount_change');
             $table->timestamps();
             $table->softDeletes();
         });
