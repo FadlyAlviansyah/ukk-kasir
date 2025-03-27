@@ -33,8 +33,7 @@ class TransactionController extends Controller
             'user_id' => 'required|exists:users,id',
             'phone_number' => 'nullable|string|max:15',
             'total' => 'required|numeric|decimal:0,2',
-            'points_earned' => 'nullable', 
-            'points_used' => 'nullable', 
+            // 'points_used' => 'nullable', 
             'amount_paid' => 'required',
             'items' => 'required', 
             'items.*.product_id' => 'nullable|exists:products,id', 
@@ -59,8 +58,8 @@ class TransactionController extends Controller
 
         $transaction = Transaction::create([
             'user_id' => $validatedData['user_id'],
-            'member_id' => $validatedData['member_id'] :: null,
             'total' => $validatedData['total'],
+            'points_used' => 0,
             'amount_paid' => $amountPaid,
             'amount_change' => $amountChange,
         ]);
@@ -76,7 +75,7 @@ class TransactionController extends Controller
 
         $data = compact('transaction', 'items');
 
-        return redirect()->route('transaction.detail-print')->with('data', $data);
+        return redirect()->route('transaction.detail-print', $transaction->id)->with('data', $data);
     }
 
     public function createMember(Request $request)

@@ -38,6 +38,7 @@
               <div class="row mt-3">
                 <div class="col-lg-9 col-md-12">
                   <div class="invoice-details">
+                    @if ($transaction->member)
                     <address>
                       <b>{{ $transaction->member->name }}</b>
                       <br>
@@ -45,6 +46,7 @@
                       <br>
                       MEMBER POIN : {{ $transaction->member->points }}
                     </address>
+                    @endif
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-12">
