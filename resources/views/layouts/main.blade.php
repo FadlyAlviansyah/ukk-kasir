@@ -40,10 +40,11 @@
     <script src="{{ asset('dist/js/waves.js') }}"></script>
     <script src="{{ asset('dist/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('dist/js/custom.js') }}"></script>
-    <script src="{{ asset('assets/libs/chartist/dist/chartist.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script>
-    <script src="{{ asset('dist/js/pages/dashboards/dashboard1.js') }}"></script>
+    {{-- <script src="{{ asset('assets/libs/chartist/dist/chartist.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('dist/js/pages/dashboards/dashboard1.js') }}"></script> --}}
     <script src="//cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @stack('script')
 </body>
 

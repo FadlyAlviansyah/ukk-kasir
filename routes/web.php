@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
@@ -25,9 +26,7 @@ Route::middleware(['guest'])->group(function() {
 
 Route::middleware(['auth'])->group(function() {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/', function() {
-        return view('pages.dashboard');
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('/product')->name('product.')->group(function() {
         Route::get('/', [ProductController::class, 'index'])->name('home');
