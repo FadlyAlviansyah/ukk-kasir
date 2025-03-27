@@ -85,7 +85,7 @@
                       <div class="form-group">
                         <label for="total_pay" class="col-md-12">Total Bayar</label>
                         <div class="col-md-12">
-                          <input type="text" name="amount_paid" class="form-control form-control-line" id="total_pay" oninput="formatRupiah(this); checkTotalPay()" placeholder="Rp 0">
+                          <input type="text" name="amount_paid" class="form-control form-control-line" id="total_pay" oninput="formatRupiah(this); checkTotalPay()" placeholder="Rp. 0">
                           <small id="error-message" class="text-danger d-none">Jumlah bayar kurang</small>
                         </div>
                       </div>
@@ -131,15 +131,38 @@
 
 @push('script')
   <script>
+    const totalPayInput = document.querySelector("#total_pay");
+    const totalAmount = document.querySelector("#totalAmount");
+    const errorMessage = document.getElementById("error-message");
+    const submitButton = document.querySelector("button[type='submit']");
+
+    function formatRupiah(value) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0
+      }).format(value).replace("Rp", "Rp. ").trim();
+    }
+
+    function checkTotalPay() {
+      const totalPayValue = parseInt(totalPayInput.value.replace(/[^0-9]/g, ''), 10) || 0;
+      const totalValue = parseInt(totalAmount.textContent.replace(/[^0-9]/g, ''), 10) || 0;
+
+      if (totalPayValue < totalValue) {
+          errorMessage.classList.remove('d-none');
+          submitButton.disabled = true;
+      } else {
+          errorMessage.classList.add('d-none');
+          submitButton.disabled = false;
+      }
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
       const cartTableBody = document.querySelector("#cartTable tbody");
-      const totalAmount = document.querySelector("#totalAmount");
+      
       const itemsInput = document.querySelector("#items");
       const statusSelect = document.querySelector("#status");
       const phoneNumberContainer = document.querySelector("#phoneNumberContainer");
-      const totalPayInput = document.querySelector("#total_pay");
-      const errorMessage = document.getElementById("error-message");
-      const submitButton = document.querySelector("button[type='submit']");
       
       let cart = [];
 
@@ -167,18 +190,7 @@
         checkTotalPay();
       }
 
-      function checkTotalPay() {
-        const totalPayValue = parseInt(totalPayInput.value.replace(/[^0-9]/g, ''), 10) || 0;
-        const totalValue = parseInt(totalAmount.textContent.replace(/[^0-9]/g, ''), 10) || 0;
-
-        if (totalPayValue < totalValue) {
-            errorMessage.classList.remove('d-none');
-            submitButton.disabled = true;
-        } else {
-            errorMessage.classList.add('d-none');
-            submitButton.disabled = false;
-        }
-      }
+      
 
       totalPayInput.addEventListener("input", function () {
         let rawValue = this.value.replace(/[^0-9]/g, "");
@@ -239,13 +251,7 @@
         }
       });
 
-      function formatRupiah(value) {
-        return new Intl.NumberFormat("id-ID", {
-          style: "currency",
-          currency: "IDR",
-          minimumFractionDigits: 0
-        }).format(value).replace("Rp", "Rp ").trim();
-      }
+      
 
       totalPayInput.addEventListener("input", function () {
         let rawValue = this.value.replace(/[^0-9]/g, "");

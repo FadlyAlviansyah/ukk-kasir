@@ -31,7 +31,7 @@
             <div class="invoice-header">
               <div class="row">
                 <div class="col-12">
-                  <a href="" class="btn btn-primary">Unduh</a>
+                  <a href="{{ route('transaction.print', $transaction->id) }}" class="btn btn-primary">Unduh</a>
                   <a href="{{ route('transaction.home') }}" class="btn btn-secondary">Kembali</a>
                 </div>
               </div>

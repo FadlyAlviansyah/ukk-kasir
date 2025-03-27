@@ -8,27 +8,24 @@
                         <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item {{ request()->segment(1) === 'product' ? 'selected' : '' }}">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('product.home') }}" aria-expanded="false">
                         <i class="mdi mdi-store"></i>
                         <span class="hide-menu">Produk</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="table-basic.html" aria-expanded="false">
+                <li class="sidebar-item {{ request()->segment(1) === 'transaction' ? 'selected' : '' }}">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('transaction.home') }}" aria-expanded="false">
                         <i class="mdi mdi-cart"></i>
                         <span class="hide-menu">Pembelian</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item {{ request()->segment(1) === 'user' ? 'selected' : '' }}">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('user.home') }}" aria-expanded="false">
                         <i class="mdi mdi-account"></i>
                         <span class="hide-menu">User</span>
                     </a>
                 </li>
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="{{ route('icons') }}" aria-expanded="false"><i class="mdi mdi-face"></i><span
-                            class="hide-menu">Icon</span></a></li>
             </ul>
         </nav>
     </div>
