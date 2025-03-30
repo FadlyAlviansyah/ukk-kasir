@@ -10,15 +10,6 @@
 
 @section('content')
 <div class="page-wrapper">
-  @if ($errors->any())
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
   <div class="page-breadcrumb ">
     <div class="row align-items-center">
       <div class="col-6">
@@ -50,12 +41,12 @@
                   </thead>
                   <tbody class="table-group-divider">
                     @foreach ($items as $item)
-                    <tr>
-                      <td>{{ $item['name'] }}</td>
-                      <td>Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
-                      <td>{{ $item['quantity'] }}</td>
-                      <td>Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</td>
-                    </tr>
+                      <tr>
+                        <td>{{ $item['name'] }}</td>
+                        <td>Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
+                        <td>{{ $item['quantity'] }}</td>
+                        <td>Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</td>
+                      </tr>
                     @endforeach
                   </tbody>
                   <tfoot class="table-group-divider">
@@ -82,7 +73,12 @@
                     <div class="form-group">
                       <label for="name" class="col-md-12">Nama Member (identitas)</label>
                       <div class="col-md-12">
-                        <input type="text" class="form-control form-control-line" id="name" name="name" value="{{ old('name', $memberName) }}">
+                        <input type="text" class="form-control form-control-line @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $memberName) }}">
+                        @error('name')
+                          <div class="invalid-feedback">
+                            Nama member harus diisi!
+                          </div>
+                        @enderror
                       </div>
                     </div>
                   </div>
@@ -105,7 +101,8 @@
                       </div>
                     </div>
                   </div>
-                  <input type="hidden" name="items" value="{{ json_encode($items) }}">
+                  <input type="hidden" name="items" value="{{ old('items', json_encode($items)) }}">
+                  {{-- <input type="hidden" name="items" value="{{ json_encode($items) }}"> --}}
                   <input type="hidden" name="total" value="{{ $total }}" id="total">
                   <input type="hidden" name="points_used" id="points_used">
                   <input type="hidden" name="amount_paid" value="{{ $amountPaid }}">

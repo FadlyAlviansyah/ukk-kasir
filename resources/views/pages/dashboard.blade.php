@@ -9,43 +9,50 @@
 @endsection
 
 @section('content')
-  <div class="page-wrapper">
-    <div class="page-breadcrumb">
-        <div class="row align-items-center">
-            <div class="col-6">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 d-flex align-items-center">
-                        <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                    </ol>
-                </nav>
-                <h1 class="mb-0 fw-bold">Dashboard</h1> 
+    @if (Session::get('loginSuccess'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showBasicAlert('Login Successful', '', 'success');
+            });
+        </script>     
+    @endif
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 d-flex align-items-center">
+                            <li class="breadcrumb-item"><a href="index.html" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        </ol>
+                    </nav>
+                    <h1 class="mb-0 fw-bold">Dashboard</h1> 
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-md-flex align-items-center">
-                        <div>
-                            <h4 class="card-title">Selamat Datang, Administrator!</h4>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-md-flex align-items-center">
+                            <div>
+                                <h4 class="card-title">Selamat Datang, Administrator!</h4>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <canvas id="barChart"></canvas>
-                        </div>
-                        <div class="col-lg-4">
-                            <canvas id="pieChart"></canvas>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <canvas id="barChart"></canvas>
+                            </div>
+                            <div class="col-lg-4">
+                                <canvas id="pieChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-  </div>
 @endsection
 
 @push('script')

@@ -18,7 +18,7 @@ class AuthController extends Controller
             $user = Auth::user();
             
             if ($user) {
-                return redirect()->route('dashboard')->with('logginSuccess', 'Login Successfully');
+                return redirect()->route('dashboard')->with('loginSuccess', 'Login Successfully');
             }
         }
 

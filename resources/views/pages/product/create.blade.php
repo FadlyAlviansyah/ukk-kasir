@@ -35,7 +35,12 @@
                     <div class="form-group">
                       <label for="name" class="col-md-12">Nama Produk <span class="text-danger">*</span></label>
                       <div class="col-md-12">
-                        <input type="text" name="name" id="name" class="form-control form-control-line">
+                        <input type="text" name="name" id="name" class="form-control form-control-line @error('name') is-invalid @enderror" value="{{ old('name') }}">
+                        @error('name')
+                          <div class="invalid-feedback">
+                            Nama produk harus diisi!
+                          </div>
+                        @enderror
                       </div>
                     </div>
                   </div>
@@ -43,7 +48,12 @@
                     <div class="form-group">
                       <label for="image" class="col-md-12">Gambar Produk <span class="text-danger">*</span></label>
                       <div class="col-md-12">
-                        <input type="file" name="image" id="image" class="form-control form-control-line">
+                        <input type="file" name="image" id="image" class="form-control form-control-line @error('image') is-invalid @enderror">
+                        @error('image')
+                          <div class="invalid-feedback">
+                            Gambar produk harus diisi!
+                          </div>
+                        @enderror
                       </div>
                     </div>
                   </div>
@@ -53,7 +63,12 @@
                     <div class="form-group">
                       <label for="price" class="col-md-12">Harga <span class="text-danger">*</span></label>
                       <div class="col-md-12">
-                        <input type="text" name="price" id="price" class="form-control form-control-line">
+                        <input type="text" name="price" id="price" class="form-control form-control-line @error('price') is-invalid @enderror" value="{{ old('price') }}">
+                        @error('price')
+                          <div class="invalid-feedback">
+                            Harga produk harus diisi!
+                          </div>
+                        @enderror
                       </div>
                     </div>
                   </div>
@@ -61,7 +76,12 @@
                     <div class="form-group">
                       <label for="stock" class="col-md-12">Stok <span class="text-danger">*</span></label>
                       <div class="col-md-12">
-                        <input type="number" name="stock" id="stock" class="form-control form-control-line">
+                        <input type="number" name="stock" id="stock" class="form-control form-control-line @error('stock') is-invalid @enderror" value="{{ old('stock') }}">
+                        @error('stock')
+                          <div class="invalid-feedback">
+                            Stok produk harus diisi!
+                          </div>
+                        @enderror
                       </div>
                     </div>
                   </div>

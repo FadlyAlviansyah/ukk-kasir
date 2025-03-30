@@ -9,34 +9,25 @@
 @endsection
 
 @section('content')
-<div class="page-wrapper">
-  @if ($errors->any())
-    <div class="alert alert-danger">
-      <ul>
-        @foreach ($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
-  <div class="page-breadcrumb ">
-    <div class="row align-items-center">
-      <div class="col-6">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb mb-0 d-flex align-items-center">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
-            <li class="breadcrumb-item active" aria-current="page">Penjualan</li>
-          </ol>
-        </nav>
-        <h1 class="mb-0 fw-bold">Penjualan</h1> 
+  <div class="page-wrapper">
+    <div class="page-breadcrumb ">
+      <div class="row align-items-center">
+        <div class="col-6">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 d-flex align-items-center">
+              <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="link"><i class="mdi mdi-home-outline fs-4"></i></a></li>
+              <li class="breadcrumb-item active" aria-current="page">Penjualan</li>
+            </ol>
+          </nav>
+          <h1 class="mb-0 fw-bold">Penjualan</h1> 
+        </div>
       </div>
     </div>
-  </div>
-  <div class="container-fluid d-flex flex-column" style="min-height: 500px">
-    <div class="row">
-      <div class="col-12 max-h-auto">
-        <div class="card">
-          <div class="card-body">
+    <div class="container-fluid d-flex flex-column" style="min-height: 500px">
+      <div class="row">
+        <div class="col-12 max-h-auto">
+          <div class="card">
+            <div class="card-body">
               <div class="row">
                 <div class="col-md-5 p-0">
                   <form action="{{ route('transaction.store') }}" method="POST">
@@ -75,9 +66,12 @@
                     </div>
                     <div class="row" id="phoneNumberContainer" style="display: none;">
                       <div class="form-group">
-                        <label for="phone_number" class="col-md-12">Nomor Telepon</label>
+                        <label for="phone_number" class="col-md-12">Nomor Telepon <small class="text-danger">(daftar/gunakan member)</small></label>
                         <div class="col-md-12">
                           <input type="text" class="form-control form-control-line" id="phone_number" name="phone_number">
+                          <div class="invalid-feedback">
+                            Nomor telepon produk harus diisi!
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -100,33 +94,29 @@
                 <div class="col-md-7 overflow-auto" style="max-height: 500px">
                   <div class="row g-3">
                     @foreach ($products as $product)
-                    <div class="col-md-4 col-sm-6">
-                      <div class="card">
-                        <img src="{{ asset('storage/' . $product['image']) }}" class="card-img-top" alt="{{ $product['name'] }}">
-                        <div class="card-body">
-                          <h5 class="card-title">{{ $product['name'] }}</h5>
-                          <p class="card-text fw-bold">Stok {{ $product['stock'] }}</p>
-                          <p class="card-text">Rp {{ number_format($product['price'], 0, ',', '.') }}</p>
-                          <button class="btn btn-primary add-to-cart" 
-                                  data-id="{{ $product['id'] }}"
-                                  data-name="{{ $product['name'] }}" 
-                                  data-price="{{ $product['price'] }}"
-                                  data-stock="{{ $product['stock'] }}">
-                            Tambah
-                          </button>
+                      <div class="col-md-4 col-sm-6">
+                        <div class="card">
+                          <img src="{{ asset('storage/' . $product['image']) }}" class="card-img-top" alt="{{ $product['name'] }}">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ $product['name'] }}</h5>
+                            <p class="card-text fw-bold">Stok {{ $product['stock'] }}</p>
+                            <p class="card-text">Rp {{ number_format($product['price'], 0, ',', '.') }}</p>
+                            <button class="btn btn-primary add-to-cart" data-id="{{ $product['id'] }}" data-name="{{ $product['name'] }}" data-price="{{ $product['price'] }}" data-stock="{{ $product['stock'] }}">
+                              Tambah
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
                     @endforeach
                   </div>
                 </div>
               </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 @endsection
 
 @push('script')
@@ -159,7 +149,6 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       const cartTableBody = document.querySelector("#cartTable tbody");
-      
       const itemsInput = document.querySelector("#items");
       const statusSelect = document.querySelector("#status");
       const phoneNumberContainer = document.querySelector("#phoneNumberContainer");
@@ -189,8 +178,6 @@
 
         checkTotalPay();
       }
-
-      
 
       totalPayInput.addEventListener("input", function () {
         let rawValue = this.value.replace(/[^0-9]/g, "");
@@ -251,15 +238,29 @@
         }
       });
 
-      
-
       totalPayInput.addEventListener("input", function () {
         let rawValue = this.value.replace(/[^0-9]/g, "");
         this.dataset.rawValue = rawValue;
         this.value = formatRupiah(rawValue);
       });
 
-      document.querySelector("form").addEventListener("submit", function () {
+      document.querySelector("form").addEventListener("submit", function (e) {
+        const phoneNumberInputField = document.getElementById('phone_number');
+        
+        if (cart.length === 0) {
+          e.preventDefault();
+          showBasicAlert('', 'Silahkan pilih produk yang ingin dibeli!', 'warning');
+          return;
+        }   
+        
+        if (statusSelect.value === "member" && phoneNumberInputField.value.trim() === "") {
+          e.preventDefault();
+          phoneNumberInputField.classList.add('is-invalid');
+          return;
+        } else {
+          phoneNumberInputField.classList.remove('is-invalid');
+        }
+
         totalPayInput.value = totalPayInput.dataset.rawValue || "0";
       });
     });
