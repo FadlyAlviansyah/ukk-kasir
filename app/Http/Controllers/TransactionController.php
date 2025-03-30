@@ -66,6 +66,12 @@ class TransactionController extends Controller
         ]);
 
         foreach ($items as $item) {
+            $product = Product::find($item['id']);
+            if ($product) {
+                $product->stock -= $item['quantity'];
+                $product->save();
+            }
+
             TransactionDetail::create([
                 'transaction_id' => $transaction->id,
                 'product_id' => $item['id'],
@@ -147,6 +153,12 @@ class TransactionController extends Controller
         $items = json_decode($validatedData['items'], true);
 
         foreach ($items as $item) {
+            $product = Product::find($item['id']);
+            if ($product) {
+                $product->stock -= $item['quantity'];
+                $product->save();
+            }
+            
             TransactionDetail::create([
                 'transaction_id' => $transaction->id,
                 'product_id' => $item['id'],
