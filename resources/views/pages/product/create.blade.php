@@ -63,7 +63,7 @@
                     <div class="form-group">
                       <label for="price" class="col-md-12">Harga <span class="text-danger">*</span></label>
                       <div class="col-md-12">
-                        <input type="text" name="price" id="price" class="form-control form-control-line @error('price') is-invalid @enderror" value="{{ old('price') }}">
+                        <input type="text" name="price" id="price" class="form-control form-control-line @error('price') is-invalid @enderror" value="{{ old('price') }}" onchange="formatRupiah(this)">
                         @error('price')
                           <div class="invalid-feedback">
                             Harga produk harus diisi!
@@ -99,3 +99,28 @@
   </div>
 </div>
 @endsection
+@push('script')
+  <script>
+    const priceInput = document.querySelector('#price')
+
+    function formatRupiah(value) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0
+      }).format(value).replace("Rp", "Rp. ").trim();
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      priceInput.addEventListener("input", function () {
+        let rawValue = this.value.replace(/[^0-9]/g, "");
+        this.dataset.rawValue = rawValue;
+        this.value = formatRupiah(rawValue);
+      });
+
+      document.querySelector("form").addEventListener("submit", function (e) {
+        priceInput.value = priceInput.dataset.rawValue || "0";
+      });
+    })
+  </script>
+@endpush

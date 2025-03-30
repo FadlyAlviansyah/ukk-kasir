@@ -79,7 +79,7 @@
                     <th>{{ $i++ }}</th>
                     <td style="width: 100px"><img src="storage/{{ $product['image'] }}" alt="{{ $product['name'] }}" style="width: 100%"></td>
                     <td>{{ $product['name'] }}</td>
-                    <td>{{ $product['price'] }}</td>
+                    <td>Rp. {{ number_format($product['price'], 0, ',', '.') }}</td>
                     <td>{{ $product['stock'] }}</td>
                     <td>
                       <div class="d-flex justify-content-around">
