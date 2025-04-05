@@ -1,6 +1,20 @@
 @extends('layouts.main')
 
 @section('content')
+  @if (Session::get('error'))
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        showBasicAlert('', 'Proses login gagal, pastikan Email atau Password terisi dengan benar!', 'error');
+      });
+    </script>     
+  @endif
+  @if (Session::get('logout'))
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        showBasicAlert('', 'Logout berhasil!', 'success');
+      });
+    </script>     
+  @endif
   <div class="position-relative overflow-hidden min-vh-100 d-flex align-items-center justify-content-center">
     <div class="p-5 border w-50 rounded">
       <form action{{ route('login') }} method="POST">

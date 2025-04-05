@@ -12,7 +12,7 @@
     @if (Session::get('loginSuccess'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                showBasicAlert('Login Successful', '', 'success');
+                showBasicAlert('', 'Login berhasil!', 'success');
             });
         </script>     
     @endif
