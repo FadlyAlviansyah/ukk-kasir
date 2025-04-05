@@ -8,6 +8,8 @@
   @include('components.aside')
 @endsection
 
+@section('title', 'Penjualan')
+
 @section('content')
 <div class="page-wrapper">
   <div class="page-breadcrumb ">

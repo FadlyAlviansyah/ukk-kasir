@@ -8,6 +8,8 @@
   @include('components.aside')
 @endsection
 
+@section('title', 'Produk')
+
 @section('content')
   @if (Session::get('deleted'))
     <script>

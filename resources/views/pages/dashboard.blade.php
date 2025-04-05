@@ -8,6 +8,8 @@
   @include('components.aside')
 @endsection
 
+@section('title', 'Dashboard')
+
 @section('content')
     @if (Session::get('loginSuccess'))
         <script>
