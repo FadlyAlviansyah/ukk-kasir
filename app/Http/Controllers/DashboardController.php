@@ -34,6 +34,12 @@ class DashboardController extends Controller
                 ];
             })->values();
 
-        return view('pages.dashboard', compact('transactionData', 'productSales'));
+        $today = Carbon::today();
+
+        $totalTransactions = Transaction::where('created_at', $today)->count();
+
+        $lastUpdated = Carbon::now()->translatedFormat('d M Y H:i');
+
+        return view('pages.dashboard', compact('transactionData', 'productSales', 'totalTransactions', 'lastUpdated'));
     }
 }

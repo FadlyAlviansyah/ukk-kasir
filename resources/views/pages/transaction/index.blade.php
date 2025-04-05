@@ -32,9 +32,11 @@
                   <div class="col text-start">
                     <a href="{{ route('transaction.export-excel') }}" class="btn btn-info">Export Penjualan (.xlsx)</a>
                   </div>
-                  <div class="col text-end">
-                    <a href="{{ route('transaction.create') }}" class="btn btn-primary">Tambah Penjualan</a>
-                  </div>
+                  @if (Auth::user()->role === 'cashier')
+                    <div class="col text-end">
+                      <a href="{{ route('transaction.create') }}" class="btn btn-primary">Tambah Penjualan</a>
+                    </div>
+                  @endif
                 </div>
                 <div class="table-responsive">
                   <table id="salesTable" class="table">
@@ -45,7 +47,6 @@
                             <th scope="col">Tanggal Penjualan</th>
                             <th scope="col">Total Harga</th>
                             <th scope="col">Dibuat Oleh</th>
-                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -156,7 +157,8 @@
         },
         "columnDefs": [
           { "width": "50px", "targets": 0 },
-          { "width": "220px", "targets": 5 }
+          { "width": "220px", "targets": 5 },
+          { "orderable": false, "targets": 5 },
         ]
       });
     });

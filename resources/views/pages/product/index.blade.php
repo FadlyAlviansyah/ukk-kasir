@@ -55,9 +55,11 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-body text-end">
-              <a href="{{ route('product.create') }}" class="btn btn-primary text-white">Tambah Produk</a>
-            </div>
+            @if (Auth::user()->role === 'admin')
+              <div class="card-body text-end">
+                <a href="{{ route('product.create') }}" class="btn btn-primary text-white">Tambah Produk</a>
+              </div>
+            @endif
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead>
@@ -67,7 +69,6 @@
                     <th scope="col">Nama Produk</th>
                     <th scope="col">Harga</th>
                     <th scope="col">Stok</th>
-                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -81,17 +82,19 @@
                     <td>{{ $product['name'] }}</td>
                     <td>Rp. {{ number_format($product['price'], 0, ',', '.') }}</td>
                     <td>{{ $product['stock'] }}</td>
-                    <td>
-                      <div class="d-flex justify-content-around">
-                        <a href="{{ route('product.edit', $product['id']) }}" class="btn btn-warning">Edit</a>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateStockModal-{{ $product['id'] }}">Update Stock</button>
-                        <form action="{{ route('product.delete', $product['id']) }}" method="post">
-                          @csrf
-                          @method('DELETE')
-                          <button class="btn btn-danger" onclick="showDeleteConfirmationAlert(event, this.form)">Hapus</button>
-                        </form>
-                      </div>
-                    </td>
+                    @if (Auth::user()->role === 'admin')
+                      <td>
+                        <div class="d-flex justify-content-around">
+                          <a href="{{ route('product.edit', $product['id']) }}" class="btn btn-warning">Edit</a>
+                          <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#updateStockModal-{{ $product['id'] }}">Update Stock</button>
+                          <form action="{{ route('product.delete', $product['id']) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger" onclick="showDeleteConfirmationAlert(event, this.form)">Hapus</button>
+                          </form>
+                        </div>
+                      </td>
+                    @endif
                   </tr>
                   <form action="{{ route('product.updateStock', $product['id']) }}" method="POST">
                     @csrf
